@@ -1,0 +1,4 @@
+<?php
+$arry = array('a'=>'a',
+    'b'=>'b'
+)

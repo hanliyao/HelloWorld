@@ -1,0 +1,19 @@
+<?php
+class Cache{
+    protected $handler;
+    
+    protected $options = array();
+    
+    public function __get($name)
+    {
+        return $this->get($name);
+    }
+    static function getInstance() {
+        $param = func_get_args();
+    }
+}
+
+function get_instance_of($name,$method='',$arg = array())
+{
+    
+}

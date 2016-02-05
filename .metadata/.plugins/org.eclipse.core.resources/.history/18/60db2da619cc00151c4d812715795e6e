@@ -1,0 +1,7 @@
+<?php
+$arry = array('a'=>'a',
+    'b'=>'b',
+);
+//²âÊÔº¯Êı
+$arry = array_change_key_case($arry);
+echo $arry['A'];

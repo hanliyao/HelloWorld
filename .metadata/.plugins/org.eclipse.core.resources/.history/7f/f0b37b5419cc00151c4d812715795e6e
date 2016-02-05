@@ -1,0 +1,115 @@
+<?php
+class Cache{
+    protected $handler;
+    
+    protected $options = array();
+    
+    public function __get($name)
+    {
+        return $this->get($name);
+    }
+    static function getInstance() {
+        $param = func_get_args();
+    }
+}
+
+function get_instance_of($name,$method='',$args = array())
+{
+    static $_instance = array();
+    $identify = empty($arg)?$name.$method:$name.$method.to_guid_string($args);
+    
+    if(!isset($_instance[$identify]))
+    {
+        //当这个字段中没有内容的时候
+        if(class_exists($name))
+        {
+            $o = new $name;
+            if(method_exists($o, $method))
+            {
+                //如果函数存在方法时候，则需要调用这个函数的方法
+                if(!empty($args))
+                {
+                    //如果某个类存在一个方法，并且这个方法不参数值不为空的时候
+                    $_instance[$identify] = call_user_func_array(array($o,$method), $args);
+                }else {
+                    $_instance[$identify] = $o->$method();
+                }
+            }else 
+                $_instance[$identify] = $o;
+        }else {
+            //halt函数这里有问题
+            //当前的文件为function.php
+            
+        }
+    }
+    return $_instance[$identify];
+    
+}
+//根据PHP各种类型的变量生成唯一的标识符
+function to_guid_string($mix)
+{
+    if(is_object($mix)&&function_exists('spl_object_hash'))
+    {
+        return spl_object_hash($mix);
+    }elseif(is_resource($mix))
+    {
+        $mix = get_resource_type($mix).strval($mix);
+    }else {
+        $mix = serialize($mix);
+        //生辰一个存储值
+    }
+    return md5($mix);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

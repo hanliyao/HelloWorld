@@ -1368,3 +1368,6 @@ java.lang.IllegalArgumentException
 	at org.eclipse.php.internal.core.codeassist.PHPCompletionEngine.complete(PHPCompletionEngine.java:63)
 	at org.eclipse.dltk.internal.core.Openable$CompletionThread.run(Openable.java:503)
 	at org.eclipse.dltk.internal.core.Openable$CompletionThread.run(Openable.java:484)
+
+!ENTRY org.eclipse.php.ui 2 0 2016-02-05 20:53:24.720
+!MESSAGE Invalid 'placeAfter' id (com.zend.php.platform.ui.wizard.CompositeFragmentFactory)
