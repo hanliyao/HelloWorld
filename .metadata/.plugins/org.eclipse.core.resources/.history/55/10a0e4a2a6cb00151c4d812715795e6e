@@ -1,0 +1,25 @@
+<!DOCTYPE unspecified PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+    <head>
+        <title>代码测试工具页面</title>
+    </head>
+    
+    <body>
+        <h1>这个部分 用来测试代码中有问题的地方</h1>
+        <?php 
+            echo "let's start!!!<br>";
+            echo "<hr>";
+            $end = '';
+            if(is_float($end))
+            {
+                echo "end is float<br>";
+            }else {
+                echo "end is not a float<br>";
+            }
+            echo "<hr>";
+        ?>
+    </body>
+</html>
+<?php
+?>

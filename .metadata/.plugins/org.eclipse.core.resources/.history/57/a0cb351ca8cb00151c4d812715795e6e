@@ -1,0 +1,16 @@
+<?php
+    function G($start, $end='', $dec = 4)
+    {
+        static $_info = array();
+        static $_mem  = array();
+        if(is_float($end)){
+            $_info[$start] = $end;
+        }elseif (!empty($end))
+        {
+            
+        }else {
+            $_info[$start] = microtime(TRUE);
+            $_mem[$start]= memory_get_usage();
+        }
+    }
+?>

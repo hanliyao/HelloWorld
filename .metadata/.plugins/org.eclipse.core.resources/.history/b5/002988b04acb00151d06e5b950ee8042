@@ -1,0 +1,13 @@
+<?php
+    echo  "hello world";
+    echo  "这个世界真的很大";
+    
+?>
+<html>
+    <head>
+        <title>从今天开始研究PHP</title>
+    </head>
+    <body>
+        <h1>zend studio是一个很好的编译器</h1>
+    </body>
+</html>
