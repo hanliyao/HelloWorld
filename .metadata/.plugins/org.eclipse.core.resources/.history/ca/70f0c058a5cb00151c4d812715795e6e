@@ -1,0 +1,16 @@
+<?php
+    echo  "hello world";
+    echo  "这个世界真的很大";
+    
+?>
+<html>
+    <head>
+        <title>从今天开始研究PHP</title>
+    </head>
+    <body>
+        <h1>zend studio是一个很好的编译器</h1>
+        <p>
+            如果从今天开始可以对自己的代码进行一个有效的管理，这未尝不是一件好事。
+        </p>
+    </body>
+</html>

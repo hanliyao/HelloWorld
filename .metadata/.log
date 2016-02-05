@@ -1355,3 +1355,16 @@ This warning can be switched off on the Team > Git > Confirmations and Warnings 
 
 !ENTRY org.eclipse.ui 2 2 2016-02-05 11:09:31.011
 !MESSAGE Invalid preference category path: org.jboss.tools.common.model.ui.MainPreferencePage (bundle: org.jboss.tools.vpe.browsersim.eclipse, page: org.jboss.tools.vpe.browsersim.eclipse.preferences.BrowserSimPreferences)
+
+!ENTRY org.eclipse.php.core 4 10001 2016-02-05 17:14:28.838
+!MESSAGE PHPCore plugin internal error
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.php.internal.core.ast.locator.Locator.locateNode(Locator.java:70)
+	at org.eclipse.php.internal.core.ast.nodes.Program.getElementAt(Program.java:263)
+	at org.zend.php.framework.ui.zf2.locatorbinding.ServiceCompletionStrategy.insideMethodInvocation(ServiceCompletionStrategy.java:90)
+	at org.zend.php.framework.ui.zf2.locatorbinding.ServiceCompletionStrategy.apply(ServiceCompletionStrategy.java:50)
+	at org.eclipse.php.internal.core.codeassist.PHPCompletionEngine.complete(PHPCompletionEngine.java:115)
+	at org.eclipse.php.internal.core.codeassist.PHPCompletionEngine.complete(PHPCompletionEngine.java:63)
+	at org.eclipse.dltk.internal.core.Openable$CompletionThread.run(Openable.java:503)
+	at org.eclipse.dltk.internal.core.Openable$CompletionThread.run(Openable.java:484)
