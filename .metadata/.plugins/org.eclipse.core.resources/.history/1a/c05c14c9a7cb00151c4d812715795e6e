@@ -1,0 +1,10 @@
+<?php
+    function G($start, $end='', $dec = 4)
+    {
+        static $_info = array();
+        static $_mem  = array();
+        if(is_float($end)){
+            $_info[$start] = $end;
+        }
+    }
+?>
