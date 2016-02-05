@@ -1,0 +1,119 @@
+<!DOCTYPE unspecified PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+    <head>
+        <title>代码测试工具页面</title>
+        <style type="text/css">
+        body{
+            background-color:yellow;
+        }
+    </style>
+    </head>
+    
+    <body>
+        <h1>这个部分 用来测试代码中有问题的地方</h1>
+        <?php 
+            echo "let's start!!!<br>";
+            echo "<hr>";
+            $end = '';
+            if(is_float($end))
+            {
+                echo "end is float<br>";
+            }else {
+                echo "end is not a float<br>";
+            }
+            echo "<hr>";
+            
+           //测试$end 是否为空
+           if(empty($end))
+           {
+               echo "end is empty<br>";
+           }else {
+               echo "end is not empty<br>";
+           }
+           echo "<hr>";
+           
+           //对数组的进行测试
+           $_info = array();
+           $_start = 'hello';
+           $_info[$_start] = 12345;
+           echo "$_info[$_start]<br>";
+           echo "<hr>";
+           //通过对数组的测试，发现数组的下表可以是字符串，
+           //只要第二次给出相应的下表，则可以取出字符串中的内容
+           
+           //测试isset函数
+           echo "测试isset函数<br>";
+           $temp = array();
+           $temp[0]="hello world";
+           echo "temp[0]<br>";
+           if(isset($temp[0]))
+           {
+               echo "数组中存在数据<br>";
+           }else {
+               echo "数组中不存在数据<br>";
+           }
+           echo "temp[1]<br>";
+           if(isset($temp[1]))
+           {
+               echo "数组中存在数据<br>";
+           }else {
+               echo "数组中不存在数据<br>";
+           }
+           echo "<hr>";
+           
+           echo "<hr>";
+           echo "对文件作出判断<br>";
+           $fileName = "C:/Users/linda/Downloads/eclipse-php-helios-win32/eclipse/artifacts.xml<br>";
+           //---------------------------------------------------
+           $reapath = realpath($fileName);
+           echo "real path is ".$reapath;
+           echo "<br>";
+           //---------------------------------------------------
+           $base = basename($fileName);
+           echo "basename of fileName is". $base;
+           echo "<br>";
+           //---------------------------------------------------
+           $baseReal = basename($reapath);
+           echo  "baseReal is". $baseReal;
+           echo "<br>";
+           //---------------------------------------------------
+           echo "<hr>";
+           $name = "www.baidu#com";
+           $defName = str_replace(array('.','#'), array('/','.'), $name);
+           echo $defName."<br>";
+           echo $name;
+           echo "<hr>";
+           //相应位置作出替换
+           ?>
+           <div style="color: red">
+                <h2>从这里重新开始</h2>
+           </div>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

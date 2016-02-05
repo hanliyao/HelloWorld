@@ -1,0 +1,5 @@
+<?php
+    echo  "hello world";
+    echo  "这个世界真的很大";
+    
+?>
