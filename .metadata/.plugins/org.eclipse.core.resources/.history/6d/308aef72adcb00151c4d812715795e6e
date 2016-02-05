@@ -1,0 +1,61 @@
+<?php
+    /**
+     * 记录和统计内存使用情况
+     * @param unknown $start
+     * @param string $end
+     * @param number $dec
+     */
+    function G($start, $end='', $dec = 4)
+    {
+        static $_info = array();
+        static $_mem  = array();
+        if(is_float($end)){
+            $_info[$start] = $end;
+        }elseif (!empty($end))
+        {
+            
+        }else {
+            $_info[$start] = microtime(TRUE);
+            $_mem[$start]= memory_get_usage();
+        }
+    }
+    /**
+     * 
+     * @param unknown $key
+     * @param number $step
+     * @param string $save
+     */
+    function N($key, $step = 0, $save = false){
+        static $_num = array();
+        if(!isset($_num[$key]))
+        {
+            
+        }
+    }
+?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
