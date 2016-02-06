@@ -1,0 +1,265 @@
+<?php
+class Cache{
+    protected $handler;
+    
+    protected $options = array();
+    
+    public function __get($name)
+    {
+        return $this->get($name);
+    }
+    static function getInstance() {
+        $param = func_get_args();
+    }
+}
+
+function get_instance_of($name,$method='',$args = array())
+{
+    static $_instance = array();
+    $identify = empty($arg)?$name.$method:$name.$method.to_guid_string($args);
+    
+    if(!isset($_instance[$identify]))
+    {
+        //当这个字段中没有内容的时候
+        if(class_exists($name))
+        {
+            $o = new $name;
+            if(method_exists($o, $method))
+            {
+                //如果函数存在方法时候，则需要调用这个函数的方法
+                if(!empty($args))
+                {
+                    //如果某个类存在一个方法，并且这个方法不参数值不为空的时候
+                    $_instance[$identify] = call_user_func_array(array($o,$method), $args);
+                }else {
+                    $_instance[$identify] = $o->$method();
+                }
+            }else 
+                $_instance[$identify] = $o;
+        }else {
+            //halt函数这里有问题
+            //当前的文件为function.php
+            halt(L('_CLASS_NOT_EXIST_')).":".$name;
+        }
+    }
+    return $_instance[$identify];
+    
+}
+
+//halt函数用来做错误报告
+function halt($error)
+{
+    $e = array();
+    if(APP_DEBUG)//这里当做debug来用。
+    {
+        if(!is_array($error))
+        {
+            //如果采用数组的方式来传递出错的信息
+            $trace  = debug_backtrace();
+            $e['message'] = $error;
+            $e['file']    = $trace[0]['file'];
+            $e['class']   = isset($trace[0]['class'])?$trace[0]['class']:'';
+            $e['function'] = isset($trace[0]['function'])?$trace[0]['function']:'';
+            $e['line'] = $trace[0]['line'];
+            $traceInfo = '';
+            $time = date('y-m-d H:i:m');
+            foreach ($trace as $t)
+            {
+                $traceInfo .= '['.$time.']'.$t['file'].'('.$t['line'].')';
+                $traceInfo .= $t['class'].$t['type'].$t['function'].'(';
+                $traceInfo .= implode(',', $t['args']);
+                $traceInfo .= ')<br/>';
+            }
+            $e['trace'] = $$traceInfo;
+        }else {
+            //如果出错的信息是一个字符串
+            $e = $error;
+        }
+    }else {
+        //重定向到出错页面
+        $error_page = C('ERROR_PAGE');
+        
+        
+        
+        if(!empty($error_page))
+        {
+            
+        }
+    }
+}
+/**
+ * 这里的 问题是name的值和value的值到底是什么
+ * @param string $name
+ * @param string $value
+ * @return void|multitype:|NULL
+ */
+function C($name = null , $value = null)
+{
+    static $_config = array();
+    if(empty($name))
+    {
+        //名字为空的时候，取出cache中value的值
+        if(!empty($value)&& $array = S('C_'.$value))
+        {
+            $_config = array_merge($config,array_change_key_case($array));
+        }
+        return $_config;
+    }
+    if(is_string($name))
+    {
+        
+        if(!strpos($name, '.'))
+        {
+            $name = strtolower($name);
+            if(is_null($value))
+            {
+                return isset($_config[$name])?$_config[$name]:null;
+            }
+            $_config[$name] = $value;
+            return ;
+        }
+        
+        $name = explode('.', $name);
+        $name[0] = strtolower($name[0]);
+        if(is_null($value))
+        {
+            return isset($_config[$name[0]][$name[1]]) ? $_config[$name[0]][$name[1]] : null;
+        }
+        $_config[$name[0]][$name[1]] = $value;
+        return;
+    }
+    if(is_array($name))
+    {
+        $_config = array_merge($_config,array_change_key_case($name));
+        if(!empty($value)){
+            S('C_'.$value,$_config);
+        }
+        return ;
+    }
+    return null;
+}
+/**
+ * 在缓存中存放一个函数的方法。
+ * @param unknown $name
+ * @param string $value
+ * @param string $options
+ * @return unknown
+ */
+function S($name, $value = '' , $options = null){
+    static $cache = '';
+    if(is_array($options))
+    {
+        $type = isset($options['type'])?$options['type']:'';
+        $cache = Cache::getInstance($type,$options);
+    }elseif (is_array($name))
+    {
+        $type = isset($name['type'])?$name['type']:'';
+        $cache = Cache::getInstance($type,$name);
+        return $cache;
+    }elseif (empty($cache))
+    {
+        $cache = Cache::getInstance();
+    }
+    
+    if(''===$value)
+    {
+        return $cache->get($name);
+    }elseif(is_null($value))
+    {
+        return $cache->rm($name);
+    }else {
+        $expire = is_numeric($options)?$options:NULL;
+        return $cache->set($name,$value,$expire);
+    }
+}
+
+
+//根据PHP各种类型的变量生成唯一的标识符
+function to_guid_string($mix)
+{
+    if(is_object($mix)&&function_exists('spl_object_hash'))
+    {
+        return spl_object_hash($mix);
+    }elseif(is_resource($mix))
+    {
+        $mix = get_resource_type($mix).strval($mix);
+    }else {
+        $mix = serialize($mix);
+        //生辰一个存储值
+    }
+    return md5($mix);
+}
+
+function redirect($url, $time = 0 , $msg = '')
+{
+    $url = str_replace(array("\n","\r"), '', $url);
+    //给出具体的url
+    if(empty($msg))
+    {
+        $msg = "系统将在{$time}秒之后自动跳转{$url}";
+    }
+    if(!headers_sent())
+    {
+        if(0 === $time)
+        {
+            header('Location: '.$url);
+        }else {
+            header("refresh:{$time};url={$url}");
+            echo ($msg);
+        }
+        exit();
+    }else {
+        
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
